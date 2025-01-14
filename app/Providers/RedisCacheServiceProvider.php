@@ -22,17 +22,18 @@ class RedisCacheServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        /*
-        $posts = Post::select(['id' , 'title'])->latest()->limit(10)->get() ; 
-        if(!Cache::has('read_more_posts'))
-        {
+            $posts = Post::select(['id' , 'title'])->latest()->limit(10)->get() ; 
+            // cache limited 10 posts
             $cachedPosts = Cache::remember('read_more_posts' , 3600 , function() use($posts){
                 return $posts;
             }) ; 
+            
+            // get stored posts from cache 
+            $posts = Cache::get('read_more_posts') ; 
+
+            // share cached posts for all views 
             View::share([
-                'cachedPosts' => $cachedPosts ,
+                'posts' => $posts ,
             ]) ; 
-        }
-            */
     }
 }
