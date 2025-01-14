@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
+
     use HasFactory , Sluggable;
 
     protected $fillable = [
