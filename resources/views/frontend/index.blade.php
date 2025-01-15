@@ -177,7 +177,7 @@
                     <div class="mn-list">
                         <h2>Read More</h2>
                         <ul>
-                            @foreach($posts as $post)
+                            @foreach($cachedPosts as $post)
                                 <li><a href="">{{ $post->title }}</a></li>
                             @endforeach
                         </ul>

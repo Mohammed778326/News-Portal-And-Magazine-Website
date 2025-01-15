@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             CommentSeeder::class ,
             PostImageSeeder::class ,
             ContactSeeder::class , 
+            UsefulLinksSeeder::class , 
         ]) ; 
     }
 }

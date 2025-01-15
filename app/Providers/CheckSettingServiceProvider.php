@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Setting;
+use App\Models\UsefulLink;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class CheckSettingServiceProvider extends ServiceProvider
@@ -20,21 +22,28 @@ class CheckSettingServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Setting::firstOr(function(){
+        $site_settings = Setting::firstOr(function(){
             return Setting::create([
                 'site_name' => 'Laravel News' , 
                 'favicon' => 'default' , 
-                'logo' => 'default' ,
-                'facebook' => 'defult' ,
-                'twitter' => 'default' ,
-                'instagram' => 'default' ,
-                'youtube' => 'default' ,
-                'country' => 'default' ,
-                'city' => 'default' ,
-                'street' => 'default' ,
-                'email' => 'default' , 
-                'phone' => 'default', 
+                'logo' => '/img/logo.png' ,
+                'facebook' => 'https://www.facebook.com/' ,
+                'twitter' => 'https://www.twitter.com/' ,
+                'instagram' => 'https://www.instagram.com/' ,
+                'youtube' => 'https://www.youtube.com/' ,
+                'country' => 'Egypt' ,
+                'city' => 'alex' ,
+                'street' => 'kahled ben waleed' ,
+                'email' => 'news@social.com' , 
+                'phone' => '01299999999', 
             ]) ; 
         }) ; 
+        
+        $useful_links = UsefulLink::limit(5)->get() ; 
+
+        View::share([
+            'site_settings' => $site_settings , 
+            'useful_links' => $useful_links , 
+        ]) ; 
     }
 }

@@ -29,11 +29,11 @@ class RedisCacheServiceProvider extends ServiceProvider
             }) ; 
             
             // get stored posts from cache 
-            $posts = Cache::get('read_more_posts') ; 
+            $cachedPosts = Cache::get('read_more_posts') ; 
 
             // share cached posts for all views 
             View::share([
-                'posts' => $posts ,
+                'cachedPosts' => $cachedPosts ,
             ]) ; 
     }
 }

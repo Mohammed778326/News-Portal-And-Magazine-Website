@@ -21,11 +21,10 @@
                     <a href="contact.html" class="nav-item nav-link">Contact Us</a>
                 </div>
                 <div class="social ml-auto">
-                    <a href=""><i class="fab fa-twitter"></i></a>
-                    <a href=""><i class="fab fa-facebook-f"></i></a>
-                    <a href=""><i class="fab fa-linkedin-in"></i></a>
-                    <a href=""><i class="fab fa-instagram"></i></a>
-                    <a href=""><i class="fab fa-youtube"></i></a>
+                    <a href="{{ $site_settings->twitter }}" title="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="{{ $site_settings->facebook }}" title="facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="{{ $site_settings->instagram }}" title="instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="{{ $site_settings->youtube }}" title="youtube"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </nav>
