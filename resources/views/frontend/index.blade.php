@@ -187,4 +187,5 @@
         </div>
     </div>
     <!-- Main News End-->
+    @flasher_render
 @endsection

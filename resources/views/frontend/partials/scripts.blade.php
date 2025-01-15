@@ -6,3 +6,4 @@
 
 <!-- Template Javascript -->
 <script src="{{ asset('assets-front') }}/js/main.js"></script>
+@flasher_render

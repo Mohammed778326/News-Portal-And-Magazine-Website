@@ -19,4 +19,5 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('assets-front') }}/css//style.css" rel="stylesheet" />
+    @flasher_render
 </head>

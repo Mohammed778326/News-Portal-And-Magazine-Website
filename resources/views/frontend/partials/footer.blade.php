@@ -50,10 +50,14 @@
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                             Vivamus sed porta dui. Class aptent taciti sociosqu
                         </p>
-                        <form>
-                            <input class="form-control" type="email" placeholder="Your email here" />
+                        <form action="{{ route('frontend.news-subscribe') }}" method="POST">
+                            @csrf
+                            <input class="form-control" type="email" name="email" id="email" placeholder="Your email here" />
                             <button class="btn">Submit</button>
                         </form>
+                        @error('email')
+                               <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
             </div>

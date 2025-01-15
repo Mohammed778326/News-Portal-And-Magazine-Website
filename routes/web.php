@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\NewsSubscriberController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/' , [HomeController::class ,'index'])->name('frontend.index') ; 
+Route::group([
+     'as' => 'frontend.' ,
+] , function(){
+    Route::get('/' , [HomeController::class ,'index'])->name('index') ; 
+    Route::post('news-subscribe' , [NewsSubscriberController::class,'store'])->name('news-subscribe') ; 
+}) ; 
 
 Route::get('/dashboard', function () {
     return view('dashboard');

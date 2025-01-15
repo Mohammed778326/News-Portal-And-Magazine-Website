@@ -31,6 +31,6 @@
     <!-- Back to Top -->
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
     @include('frontend.partials.scripts')
-
+    @flasher_render
   </body>
 </html>
