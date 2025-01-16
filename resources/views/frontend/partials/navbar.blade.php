@@ -8,12 +8,13 @@
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav mr-auto">
-                    <a href="index.html" class="nav-item nav-link @yield('status')">Home</a>
+                    <a href="{{ route('frontend.index') }}" class="nav-item nav-link @yield('home-status')">Home</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
+                        <a href="#" class="nav-link dropdown-toggle @yield('category-status')" data-toggle="dropdown">Catgories</a>
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Sub Item 1</a>
-                            <a href="#" class="dropdown-item">Sub Item 2</a>
+                            @foreach($categories as $category)
+                                <a href="{{ route('frontend.category-posts' , $category->slug) }}" class="dropdown-item">{{ $category->name }}</a>
+                            @endforeach
                         </div>
                     </div>
                     <a href="single-page.html" class="nav-item nav-link">Single Page</a>
