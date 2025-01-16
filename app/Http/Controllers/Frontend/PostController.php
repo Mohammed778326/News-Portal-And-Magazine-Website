@@ -17,7 +17,7 @@ class PostController extends Controller
             ->latest()
             ->limit(5)
             ->get();
-            
+
         return view('frontend.post.show', compact('post', 'relatedPosts'));
     }
 }
