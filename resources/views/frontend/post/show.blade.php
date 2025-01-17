@@ -44,34 +44,36 @@
                     <!-- Comment Section -->
                     <div class="comment-section">
                         <!-- Comment Input -->
-                        <div class="comment-input">
-                            <input type="text" placeholder="Add a comment..." id="commentBox" />
-                            <button id="addCommentBtn">Post</button>
-                        </div>
+                        <form id="commentFormId">
+                            <div class="comment-input">
+                                <input type="text" name="comment" placeholder="Add a comment..." id="comment_id" />
+                                <input type="hidden" name="user_id" id="user_id" value="1"/>
+                                <input type="hidden" name="post_id" id="post_id" value="{{ $post->id }}"/>
+                                <button id="addCommentBtn">Add Comment</button>
+                            </div>
+                        </form>
+                        <!--Display Validation Error Comming From Ajax-->
+                        <div id="errorMessage" style="display:none;" class="alert alert-danger">
+
+                         </div>
 
                         <!-- Display Comments -->
-                        <div class="comments">
-                            <div class="comment">
-                                <img src="{{ asset('assets-front') }}/img/news-450x350-2.jpg" alt="User Image"
-                                    class="comment-img" />
-                                <div class="comment-content">
-                                    <span class="username">User1</span>
-                                    <p class="comment-text">This is an example comment.</p>
+                            <div class="comments">
+                            @foreach($post->comments as $comment)
+                                <div class="comment">
+                                    <img src="{{ $post->user->image }}" alt="User Image"
+                                        class="comment-img" />
+                                    <div class="comment-content">
+                                        <span class="username">{{ $post->user->name }}</span>
+                                        <p class="comment-text">{{ $comment->comment }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="comment">
-                                <img src="{{ asset('assets-front') }}/img/news-450x350-2.jpg" alt="User Image"
-                                    class="comment-img" />
-                                <div class="comment-content">
-                                    <span class="username">User2</span>
-                                    <p class="comment-text">This is an example comment.</p>
-                                </div>
-                            </div>
+                            @endforeach
                             <!-- Add more comments here for demonstration -->
                         </div>
 
                         <!-- Show More Button -->
-                        <button id="showMoreBtn" class="show-more-btn">Show more</button>
+                        <button id="showMoreComments" class="show-more-btn">Show more</button>
                     </div>
 
                     <!-- Related News -->
@@ -234,3 +236,77 @@
     </div>
     <!-- Single News End-->
 @endsection
+
+@push('js')
+    <script>
+        $(document).on('click' , '#showMoreComments' , function(e){
+             e.preventDefault() ; 
+             $.ajax({
+                url:"{{ route('frontend.post.comments' , $post->slug) }}" , 
+                type:"GET",
+                success:function(response){
+                    if(response.status == 200){
+                        $('.comments').empty() ; 
+                        var user = response.data.user ; 
+                        $.each(response.data.comments , function(key , comment){
+                            $('.comments').append(`<div class="comment">
+                                            <img src="${user.image}" alt="User Image"
+                                                class="comment-img" />
+                                            <div class="comment-content">
+                                                <span class="username">${user.name}</span>
+                                                <p class="comment-text">${comment.comment}</p>
+                                            </div>
+                                    </div>
+                                </div>`) ; 
+                        }) ; 
+
+                        $('#showMoreComments').hide() ; 
+                    }
+                }, 
+                error:function(response){
+                    alert(response.message) ; 
+                }
+             }) ; 
+         }); 
+         
+         
+
+
+   $(document).on('submit' , '#commentFormId' , function(e){
+            e.preventDefault() ; 
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            var formData = new FormData($(this)[0]) ; 
+            console.log(formData) ; 
+            $.ajax({
+                url:"{{ route('frontend.post.comments.store') }}" , 
+                method:"POST" , 
+                data:formData , 
+                dataType:"json" ,
+                processData:false ,
+                contentType:false ,
+                headers: {
+                    'X-CSRF-TOKEN' : csrfToken , 
+                }, 
+                success:function(response){
+                    if(response.status == 201){
+                        $('#errorMessage').hide() ;  // hide the validation error after adding comment correctly
+                        $('.comments').prepend(`<div class="comment">
+                                        <img src="${response.data.user.image}" alt="User Image"
+                                            class="comment-img" />
+                                        <div class="comment-content">
+                                            <span class="username">${response.data.user.name}</span>
+                                            <p class="comment-text">${response.data.comment}</p>
+                                        </div>
+                                    </div>`) ; 
+                    }
+                    //$('#commentFormId').trigger('reset') ;  // clear all form inputs data fields
+                    $('#comment_id').val('') ; 
+                }, 
+            error:function(response){
+                var errorMessage = response.responseJSON.errors.comment[0]  
+                $('#errorMessage').text(errorMessage).show() ;
+            }
+            });
+        }); 
+    </script>
+@endpush

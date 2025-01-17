@@ -25,6 +25,8 @@ Route::group([
     Route::post('news-subscribe', [NewsSubscriberController::class, 'store'])->name('news-subscribe');
     Route::get('/category/{slug}', CategoryController::class)->name('category-posts');
     Route::get('/post/{slug}', [PostController::class, 'show_post'])->name('post.show');
+    Route::get('/post/comments/{slug}', [PostController::class, 'get_post_comments'])->name('post.comments');
+    Route::post('/post/comments/store', [PostController::class, 'store_comment'])->name('post.comments.store');
 });
 
 Route::get('/dashboard', function () {

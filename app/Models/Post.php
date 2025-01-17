@@ -30,7 +30,7 @@ class Post extends Model
     
     public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function category()
@@ -40,12 +40,12 @@ class Post extends Model
 
     public function images()
     {
-        return $this->hasMany(PostImage::class); 
+        return $this->hasMany(PostImage::class , 'post_id'); 
     }
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class , 'post_id');
     }
      //==========================================================================//
         //------------------------Elequent Sluggable----------------------------//
