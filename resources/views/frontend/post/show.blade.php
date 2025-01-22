@@ -81,7 +81,7 @@
                             @foreach($relatedPosts as $relatedPost)
                                 <div class="col-md-4">
                                     <div class="sn-img">
-                                        <img src="{{ $relatedPost->images->first()->image}}" class="img-fluid"
+                                        <img src="{{ asset('storage/uploads/'. $relatedPost->images->first()->image) }}" class="img-fluid"
                                             alt="{{ $relatedPost->title }}" />
                                         <div class="sn-title">
                                             <a href="{{ route('frontend.post.show', $relatedPost->slug)}}">{{ $relatedPost->title}}</a>
@@ -110,7 +110,7 @@
                                 <div class="news-list">
                                     <div class="nl-item">
                                         <div class="nl-img">
-                                            <img src="{{ $relatedPost->images->first()->image }}" />
+                                            <img src="{{ asset('storage/uploads/' . $relatedPost->images->first()->image) }}" />
                                         </div>
                                         <div class="nl-title">
                                             <a
@@ -137,7 +137,7 @@
                                         @foreach ($latestCachedPosts as $latestCachedPost)
                                             <div class="tn-news">
                                                 <div class="tn-img">
-                                                    <img src="{{ $latestCachedPost->images->first()->image }}" />
+                                                    <img src="{{ asset('storage/uploads/' . $latestCachedPost->images->first()->image) }}" />
                                                 </div>
                                                 <div class="tn-title">
                                                     <a
@@ -150,7 +150,7 @@
                                         @foreach($cachedPopularPosts as $cachedPopularPost)
                                         <div class="tn-news">
                                             <div class="tn-img">
-                                                <img src="{{ $cachedPopularPost->images->first()->image }}" />
+                                                <img src="{{ asset('storage/uploads/'. $cachedPopularPost->images->first()->image) }}" />
                                             </div>
                                             <div class="tn-title">
                                                 <a href="{{ route('frontend.post.show' , $cachedPopularPost->slug)}}">{{ $cachedPopularPost->title }}</a>
