@@ -16,9 +16,7 @@ class SharedDataServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(PostCachingService::class, function () {
-            return new PostCachingService();
-        });
+        
     }
 
     /**
@@ -32,21 +30,10 @@ class SharedDataServiceProvider extends ServiceProvider
 
         $allCategories = Category::basicSelect()->get() ;
 
-        $postCachingService = app(PostCachingService::class);
-
-        $latestCachedPosts = $postCachingService->cache_latest_posts();
-        $cachedPosts = $postCachingService->cache_read_more_posts();
-        $cached_popular_posts = $postCachingService->cache_popular_posts();
-
         View::share([
-            // share data only
             'categories' => $categories,
             'newCatgories' => $newCatgories , 
             'allCategories' => $allCategories,
-            //shared and cached data
-            'latestCachedPosts' => $latestCachedPosts,
-            'cachedPosts' => $cachedPosts,
-            'cachedPopularPosts' => $cached_popular_posts,
         ]);
     }
 }
