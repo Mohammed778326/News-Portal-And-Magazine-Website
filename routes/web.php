@@ -47,14 +47,5 @@ Route::group([
         Route::get('/profile' , 'show_profile')->name('account.profile') ; 
         Route::post('/post/store' , 'store_post')->name('post.store') ; 
     }) ; 
-
-    /* Route::get('/test' , function(){
-        return view('frontend.dashboard.user-profile') ;
-    })->name('user-dashboard') ;  */
 });
-/*
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-*/
 require __DIR__ . '/auth.php';

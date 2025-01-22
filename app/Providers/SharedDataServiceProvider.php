@@ -42,10 +42,7 @@ class SharedDataServiceProvider extends ServiceProvider
             // share data only
             'categories' => $categories,
             'newCatgories' => $newCatgories , 
-<<<<<<< HEAD
             'allCategories' => $allCategories,
-=======
->>>>>>> 65fb865803bb92ceb06dff69c996f810a7994741
             //shared and cached data
             'latestCachedPosts' => $latestCachedPosts,
             'cachedPosts' => $cachedPosts,
