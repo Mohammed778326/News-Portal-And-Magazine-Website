@@ -29,7 +29,7 @@ class NotifyUserForNewComment extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database' , 'broadcast'];
     }
 
     /**
@@ -64,6 +64,16 @@ class NotifyUserForNewComment extends Notification
             'user_id' => $this->comment->user_id ?? null,
             'link' => $this->post ? route('frontend.post.show', $this->post->slug) : '#',
         ];
-        dd($this->comment->user);
+    }
+
+    public function toBroadcast(object $notifiable)
+    {
+        return [
+            'post_title' => $this->post->title ?? 'No Title',
+            'post_id' => $this->post->id ?? null,
+            'comment' => $this->comment->comment ?? 'No Comment',
+            'user_id' => $this->comment->user_id ?? null,
+            'link' => $this->post ? route('frontend.post.show', $this->post->slug) : '#',
+        ];
     }
 }

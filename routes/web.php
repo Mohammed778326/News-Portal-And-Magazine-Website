@@ -45,7 +45,7 @@ Route::group([
            Route::post('/store' , 'store')->name('store') ;   
     }) ; 
 
-    Route::prefix('account')->name('dashboard.')->middleware(['auth'])->group(function(){
+    Route::prefix('account')->name('dashboard.')->middleware(['auth' , 'verified'])->group(function(){
         Route::controller(AccountProfileController::class)->group(function(){
             Route::get('/profile' , 'show_profile')->name('account.profile') ; 
             Route::post('/post/store' , 'store_post')->name('post.store') ; 

@@ -33,15 +33,15 @@
                       style="width: 300px;">
                       <a href="{{ route('frontend.dashboard.notification.mark-all-as-read') }}" style="inline-block; margin-left:30px" class="dropdown-item"><strong>Mark All As Read</strong></a>
                       @forelse (Auth::user()->unreadNotifications as $notify)
-                        <div id="push-notification">
+                      <div id="push-notification">
                             @php
                                 $url = $notify->data['link'] ?? '#'; // Retuen to '#' if link is not available
                                 $url .= '?notify=' . $notify->id; // Append the notify ID to the URL
                            @endphp
                             <div class="dropdown-item d-flex justify-content-between align-items-center">
                                 <a href="{{ $url }}" class="dropdown-item"><i class="fa fa-eye"></i>New Post Comment :{{ substr($notify->data['post_title'] , 0 , 14) }}</a>
-                            </div>
-                        </div>
+                           </div>
+                      </div>
                       @empty
                           
                       @endforelse
