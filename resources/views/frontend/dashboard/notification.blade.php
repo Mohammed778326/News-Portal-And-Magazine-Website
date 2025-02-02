@@ -27,6 +27,8 @@
                                     onclick="if(confirm('Are You Sure You Want To Delete This Notification ?')){document.getElementById('deleteNotification_{{ $notify->id }}').submit()} return false"
                                     class="btn btn-danger btn-sm">Delete</button>
                             </div>
+                            <br>
+                             <small><strong>({{ $notify->created_at->diffForHumans() }})</strong></small>
                         </div>
                     </a>
                     <form id="deleteNotification_{{ $notify->id }}"

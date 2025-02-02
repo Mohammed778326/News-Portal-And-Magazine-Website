@@ -38,7 +38,8 @@ class CheckSettingServiceProvider extends ServiceProvider
                 'phone' => '01299999999', 
             ]) ; 
         }) ; 
-        
+
+        $site_settings->whatsapp_link = 'https://wa.me/' . $site_settings->phone; 
         $useful_links = UsefulLink::limit(5)->get() ; 
 
         View::share([

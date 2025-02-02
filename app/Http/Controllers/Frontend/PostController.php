@@ -13,10 +13,10 @@ class PostController extends Controller
 {
     public function show_post($slug)
     {
-        $post = Post::active()->with(['user', 'images', 'category', 'comments' => function ($query) {
+        $post = Post::with(['user', 'images', 'category', 'comments' => function ($query) {
             $query->latest()->limit(5);
         }])->whereSlug($slug)->first();
-        
+        //dd($post) ; 
         $relatedPosts = Post::active()->with('images')
             ->where('category_id', $post->category->id)
             ->latest()

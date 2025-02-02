@@ -15,6 +15,7 @@ class CategoryController extends Controller
     {
         $category = Category::whereSlug($slug)->first();
         $posts = $category->posts()
+            ->active()
             ->with('images')
             ->orderBy('created_at', 'desc')
             ->paginate(5);

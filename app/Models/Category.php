@@ -44,6 +44,16 @@ class Category extends Model
          return $query->select('id' , 'name' , 'slug') ; 
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('status' , 1) ; 
+    }
+
+    public function scopeHasInPostsRelation($query)
+    {
+        return $query->has('posts' , '>=', 2) ; 
+    }
+
     //==========================================================================//
     //------------------------Elequent Sluggable----------------------------//
     //==========================================================================//

@@ -25,11 +25,11 @@ class SharedDataServiceProvider extends ServiceProvider
     public function boot(): void
     {
         
-        $categories = Category::basicSelect()->withPostsAndCount()->get() ;
+        $categories = Category::active()->hasInPostsRelation()->basicSelect()->withPostsAndCount()->get() ;
 
         $newCatgories = $categories->take(9); 
 
-        $allCategories = Category::basicSelect()->get() ;
+        $allCategories = Category::active()->basicSelect()->get() ;
 
         View::share([
             'categories' => $categories,
