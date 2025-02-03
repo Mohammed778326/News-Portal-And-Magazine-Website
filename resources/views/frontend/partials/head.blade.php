@@ -3,8 +3,9 @@
     <title>{{ config('app.name') }} - @yield('title')</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="Bootstrap News Template - Free HTML Templates" name="keywords" />
-    <meta content="Bootstrap News Template - Free HTML Templates" name="description" />
-
+    <meta content="@yield('meta-description')" name="description" />
+    <meta content="index,follow" name="description" />
+    <link rel="canonical" href="{{ url()->full() }}">
     <!--File Input Package That Used To Display And Preview The Uploaded Files-->
 
     <!--File Input Package That Used To Drag And Drop Single/Multi-Images, PDF, ...-->
@@ -31,6 +32,9 @@
 
     <!-- Summernote CSS -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <!-- Favicon -->
     <link href="{{ asset('assets-front') }}/img/favicon.ico" rel="icon" />

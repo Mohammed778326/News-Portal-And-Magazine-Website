@@ -1,6 +1,7 @@
 @extends('frontend.master')
 @section('title', 'Home Page')
 @section('home-status', 'active')
+@section('meta-description' , $site_settings->small_description)
 @section('content')
     @php
         $firstThreePosts = $posts->take(3);

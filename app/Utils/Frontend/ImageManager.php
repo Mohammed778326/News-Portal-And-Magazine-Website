@@ -56,8 +56,7 @@ class ImageManager
             $user->update([
                 'image' => $path , 
             ]) ;  
-         }else{
-            $user->update(['image' => null]) ; 
          }
+           // $user->update(['image' => null]) ; 
     }
 }

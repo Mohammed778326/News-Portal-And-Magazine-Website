@@ -35,8 +35,11 @@
                             <input type="text" name="title"  id="postTitle" class="form-control mb-2"
                                 placeholder="Post Title" />
 
+                                <!-- Post Smalll Description -->
+                            <textarea name="small_description" class="form-control mb-2" rows="4" placeholder="Enter Small Description"></textarea>
+                            
                             <!-- Post Content -->
-                            <textarea name="description" id="smallDescription" class="form-control mb-2" rows="6" placeholder="Enter Small Description"></textarea>
+                            <textarea name="description" id="smallDescription" class="form-control mb-2" rows="6" placeholder="Enter Long Description"></textarea>
                             
                             <!-- Image Upload -->
                             <input name="images[]" type="file" id="postImage" class="form-control mb-2" accept="image/*"

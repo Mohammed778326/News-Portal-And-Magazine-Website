@@ -7,8 +7,10 @@ use App\Http\Requests\Frontend\Dashboard\ChangeUserPasswordRequest;
 use App\Http\Requests\Frontend\Dashboard\StoreSettingRequest;
 use App\Models\User;
 use App\Utils\Frontend\ImageManager;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -23,17 +25,27 @@ class SettingController extends Controller
 
     public function update_setting(StoreSettingRequest $request)
     {
-         $request->validated() ; 
-         $user = User::findorFail((Auth::user()->id)) ; 
-         $user_check = $user->update($request->except(['_token' , 'image'])) ; 
-         if(!$user_check){
-            display_error_message('Sorry , Try Again') ;
+        try{
+            DB::beginTransaction() ; 
+            $request->validated() ; 
+            $user = User::findorFail((Auth::user()->id)) ; 
+            $user_check = $user->update($request->except(['_token' , 'image'])) ; 
+            if(!$user_check){
+                display_error_message('Sorry , Try Again') ;
+                return redirect()->back() ;
+            }
+            if($request->hasFile('image')){
+                ImageManager::deleteImage($user) ;
+            }; 
+            ImageManager::uploadImage($request , $user) ; 
+            DB::commit() ;
+            display_success_message('Profile Updated Successfully !') ; 
+            return redirect()->back() ; 
+        }catch(Exception $e){
+            DB::rollBack() ; 
+            display_success_message('Can not edit profile , Try Again!') ; 
             return redirect()->back() ;
-         }
-         ImageManager::deleteImage($user) ;
-         ImageManager::uploadImage($request , $user) ; 
-         display_success_message('Profile Updated Successfully !') ; 
-         return redirect()->back() ; 
+        }
     }
 
     public function change_password(ChangeUserPasswordRequest $request)

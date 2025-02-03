@@ -1,6 +1,7 @@
 @extends('frontend.master')
 @section('status', 'active')
 @section('title', 'show-post')
+@section('meta-description' , $post->small_description)
 @section('content')
     <!-- Single News Start-->
     <div class="single-news">

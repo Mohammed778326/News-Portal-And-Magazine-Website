@@ -36,6 +36,7 @@ class CheckSettingServiceProvider extends ServiceProvider
                 'street' => 'kahled ben waleed' ,
                 'email' => 'news@social.com' , 
                 'phone' => '01299999999', 
+                'small_description' => 'Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.' ,
             ]) ; 
         }) ; 
 

@@ -28,6 +28,7 @@ class StorePostRequest extends FormRequest
             'images.*' => ['image' , 'mimes:jpg,png,jpeg,webp' , 'max:2048'] , 
             'category_id' => ['required' , 'exists:categories,id']  , 
             'comment_able' => ['in:on,off'] , 
+            'small_description' => ['nullable' , 'string' , 'min:70'] , 
         ];
     }
 

@@ -21,6 +21,7 @@ class Post extends Model
         'status' ,
         'user_id',
         'category_id',
+        'small_description' , 
     ];
 
 

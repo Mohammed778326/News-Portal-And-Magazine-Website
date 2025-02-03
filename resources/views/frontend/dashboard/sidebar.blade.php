@@ -22,13 +22,8 @@
         <a href="{{ $site_settings->whatsapp_link }}" class="list-group-item list-group-item-action menu-item" data-section="settings">
             <i class="fa fa-question" aria-hidden="true"></i> Support
         </a>
-        <a href="javascript:void(0)" onclick="document.getElementById('logout-form').submit();" class="list-group-item list-group-item-action menu-item" data-section="settings">
+        <a href="" id="logout" class="list-group-item list-group-item-action menu-item" data-section="settings">
             <i class="fa fa-power-off" aria-hidden="true"></i> Logout
         </a>
-
-        <form id="logout-form" action="{{ route('logout') }}" method="POST">
-           @csrf
-        </form>
-
     </div>
 </aside>

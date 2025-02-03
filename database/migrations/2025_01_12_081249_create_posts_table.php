@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title') ;  
             $table->longText('description') ; 
+            $table->text('small_description')->nullable() ; 
             $table->string('slug')->unique() ; 
             $table->bigInteger('number_of_views')->default(0);
             $table->boolean('comment_able')->default(1);
