@@ -77,33 +77,43 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->phone }}</td>
                                     <td style="align-content:center;text-align:center;">
-                                        @if($user->status == 1)
+                                        @if ($user->status == 1)
                                             <a href="" class="btn btn-success">Active</a>
                                         @else
                                             <a href="" class="btn btn-danger">InActive</a>
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="javascript:void(0)" onclick="document.getElementById('changeUserStatusForm_{{ $user->id }}').submit();return false;" title="change status">
-                                            @if($user->status == 1)
+                                        <a href="javascript:void(0)"
+                                            onclick="document.getElementById('changeUserStatusForm_{{ $user->id }}').submit();return false;"
+                                            title="change status">
+                                            @if ($user->status == 1)
                                                 <i class="fa fa-stop" title="inactive"></i>
-                                            @else 
-                                                <i class="fa fa-play" title="activate"></i> 
+                                            @else
+                                                <i class="fa fa-play" title="activate"></i>
                                             @endif
                                         </a>
-                                        <a href="" data-toggle="modal" data-target="#exampleModal_{{ $user->id }}" title="delete user"><i class="fa fa-trash"></i></a>
-                                        <a href="javascript:void(0)" onclick="showUserInfo({{ $user->id }})" id="userInfo_{{ $user->id }}" data-target="#showUserInfoModal_{{ $user->id }}" data-toggle="modal" title="show user"><i class="fa fa-eye"></i></a>
+                                        <a href="" data-toggle="modal"
+                                            data-target="#exampleModal_{{ $user->id }}" title="delete user"><i
+                                                class="fa fa-trash"></i></a>
+                                        <a href="javascript:void(0)" onclick="showUserInfo({{ $user->id }})"
+                                            id="userInfo_{{ $user->id }}"
+                                            data-target="#showUserInfoModal_{{ $user->id }}" data-toggle="modal"
+                                            title="show user"><i class="fa fa-eye"></i></a>
                                     </td>
                                 </tr>
-                                <x-custom-modal title="Delete User!" message="Are You Sure To Delete This User?" id="{{ $user->id }}"></x-custom-modal>
+                                <x-custom-modal title="Delete User!" message="Are You Sure To Delete This User?"
+                                    id="{{ $user->id }}"></x-custom-modal>
                                 <x-show-users-info-modal id="{{ $user->id }}"></x-show-users-info-modal>
                                 <!--form for delete user-->
-                                <form id="deleteUserForm_{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+                                <form id="deleteUserForm_{{ $user->id }}"
+                                    action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                 </form>
                                 <!--form for change user status-->
-                                <form id="changeUserStatusForm_{{ $user->id }}" action="{{ route('admin.users.change-status') }}" method="POST">
+                                <form id="changeUserStatusForm_{{ $user->id }}"
+                                    action="{{ route('admin.users.change-status') }}" method="POST">
                                     @csrf
                                     <input name="user_id" type="hidden" value="{{ $user->id }}">
                                 </form>
@@ -128,21 +138,23 @@
 @endsection
 
 @push('js')
-<script>
-    function showUserInfo(id) {
-        $(document).off('click' , '#userInfo_'+id).on('click' , '#userInfo_'+id , function(e){
-            e.preventDefault();
-            $.ajax({
-                url:"{{ route('admin.users.show' , ":id") }}".replace(":id" , id) ,
-                type:"GET",
-                dataType:"json" ,
-                headers:{
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
-                } ,  
-                success:function(response){
-                        if(response.status == 200){
+    <script>
+        function showUserInfo(id) {
+            $(document).off('click', '#userInfo_' + id).on('click', '#userInfo_' + id, function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "{{ route('admin.users.show', ':id') }}".replace(":id", id),
+                    type: "GET",
+                    dataType: "json",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    success: function(response) {
+                        if (response.status == 200) {
                             const user = response.data;
-                            $('#showUserInfoModal_' + id + ' .modal-title').text("Info About User : "+user.name);
+                            const imageUrlBasePath = 'http://news-portal.test/storage/uploads/';
+                            $('#showUserInfoModal_' + id + ' .modal-title').text("Info About User : " +
+                                user.name);
                             $('#insert_user_info_' + id).empty();
                             $('#insert_user_info_' + id).append(`
                                 <div class="user-info">
@@ -153,13 +165,17 @@
                                     <p><strong>City:</strong> <span class="text-danger">${user.city}</span></p>
                                     <p><strong>Street:</strong> <span class="text-muted">${user.street}</span></p>
                                     <p><strong>Status:</strong> <span class="${user.status == 1 ? 'btn btn-success' : 'btn btn-danger'}">${user.status == 1 ? 'Active' : 'Inactive'}</span></p>
+                                    <p><strong>Image:<br><br></strong>${user.image ? `<img src="${imageUrlBasePath}${user.image.replace(/\\/g, '')}" alt="User  Image" class="profile-img rounded-circle" style="width: 100px; height: 100px;" />` : `<img src="${imageUrlBasePath}users/default.png" alt="Default Image" class="profile-img rounded-circle" style="width: 100px; height: 100px;" />`}<strong></p>
                                 </div>
                             `);
-                        $('#showUserInfoModal_' + id).modal('show');
+                            $('#showUserInfoModal_' + id).modal('show');
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
                     }
-                }
+                });
             });
-        }) ; 
-    }
-</script>
+        }
+    </script>
 @endpush

@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Backend\Admin\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backend\Admin\Users\StoreUserRequest;
 use App\Models\User;
 use App\Utils\Frontend\ImageManager;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -44,15 +48,28 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.admin.users.create') ; 
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        try{
+            DB::beginTransaction(); 
+            $request->validated();
+            $email_verified_at = $request->email_verified_at == 1 ? Carbon::now() : null; 
+            $request->merge(['email_verified_at' => $email_verified_at]); 
+            $user = User::create($request->except(['_token' , 'image' , 'password_confirmation'])) ;
+            ImageManager::uploadImage($request , $user) ;
+            DB::commit();
+            display_success_message('User Created Successfully !'); ; 
+            return redirect()->back() ;
+        }catch(Exception $e){
+            DB::rollBack() ; 
+            display_error_message('Try Again!') ;
+        }
     }
 
     /**
@@ -62,7 +79,7 @@ class UserController extends Controller
     {
         request()->query('id'); 
         request()->validate(['id' => ['exists:users,id']]);
-        $user = User::select('name', 'username', 'email', 'phone', 'status' ,'country' , 'city' ,'street')->findOrFail($id);
+        $user = User::select('name', 'username', 'email', 'phone', 'status' ,'country' , 'city' ,'street' , 'image')->findOrFail($id);
         if(!$user){
             display_error_message('Error, Try Again!');
             return redirect()->back();

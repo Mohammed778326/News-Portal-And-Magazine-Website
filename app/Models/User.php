@@ -30,6 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'street' ,
         'image' , 
         'status' ,
+        'email_verified_at', 
     ];
 
     /**
