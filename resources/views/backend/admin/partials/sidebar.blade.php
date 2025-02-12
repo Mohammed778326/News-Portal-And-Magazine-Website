@@ -78,7 +78,6 @@
         </a>
         <div id="collapseUserPages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Login Screens:</h6>
                 <a class="collapse-item" href="{{ route('admin.users.index') }}">Users</a>
                 <a class="collapse-item" href="{{ route('admin.users.create') }}">Add Users</a>
                 <a class="collapse-item" href="{{ route('admin.users.show.blocked-users') }}">Blocked Users</a>
@@ -95,12 +94,23 @@
         </a>
         <div id="collapseCategoryPages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Login Screens:</h6>
                 <a class="collapse-item" href="{{ route('admin.categories.index') }}">Categories</a>
             </div>
         </div>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePostPages"
+            aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Post Management</span>
+        </a>
+        <div id="collapsePostPages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('admin.posts.index') }}">Posts</a>
+            </div>
+        </div>
+    </li>
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">

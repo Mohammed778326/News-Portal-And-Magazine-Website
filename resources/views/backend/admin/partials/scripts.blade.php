@@ -33,5 +33,4 @@
 <!-- Font Awesome 5 Theme JS (required for the focus button) -->
 <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.4/themes/fas/theme.min.js"></script>
 
-
 @stack('js')

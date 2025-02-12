@@ -33,6 +33,6 @@ class CacheServiceProvider extends ServiceProvider
             'latestCachedPosts' => $latestCachedPosts,
             'cachedPosts' => $cachedPosts,
             'cachedPopularPosts' => $cached_popular_posts,
-        ]) ; 
+        ]) ;
     }
 }

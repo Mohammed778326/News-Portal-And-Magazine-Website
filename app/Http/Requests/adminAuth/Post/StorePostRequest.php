@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Frontend\Post;
+namespace App\Http\Requests\adminAuth\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -27,15 +27,17 @@ class StorePostRequest extends FormRequest
             'images' => ['required' , 'array'] , 
             'images.*' => ['required' , 'image' , 'mimes:jpg,png,jpeg,webp' , 'max:2048'] , 
             'category_id' => ['required' , 'exists:categories,id']  , 
-            'comment_able' => ['required' , 'in:on,off,0,1'] , 
-            'small_description' => ['nullable' , 'string' , 'min:70'] , 
+            'comment_able' => ['required' , 'in:0,1'] , 
+            'small_description' => ['nullable' , 'string' , 'min:70'] ,
+            'status' => ['required' , 'in:0,1'] , 
         ];
     }
 
     public function attributes()
     {
         return [
-            'category_id' => 'category' , 
+            'category_id' => 'category' ,
+            'comment_able' => 'comment ablility' , 
         ] ; 
     }
 }

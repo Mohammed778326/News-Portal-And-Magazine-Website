@@ -22,4 +22,13 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    //==========================================================================//
+        //------------------------Relationships----------------------------//
+    //==========================================================================//
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'admin_id');
+    }
 }

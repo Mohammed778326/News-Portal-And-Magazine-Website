@@ -39,6 +39,13 @@
 
     <!--End Of File Input Package-->
     
+    <!-- Summernote CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets-back/admin') }}/css/sb-admin-2.min.css" rel="stylesheet">
 
