@@ -11,12 +11,15 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
     public function __construct()
     {
-        //$this->middleware('admin') ; 
+        $this->middleware('admin') ; 
+        $this->middleware('admin.permissions:posts_management') ;
     }
     /**
      * Display a listing of the resource.
@@ -32,8 +35,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categoies  = Category::basicSelect()->get() ;
-        return view('backend.admin.posts.create' , ['categories' => $categoies]); ; 
+        $categoies  = Category::basicSelect()->get();
+        return view('backend.admin.posts.create', ['categories' => $categoies]);;
     }
 
     /**
@@ -41,26 +44,22 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        try{
-            DB::beginTransaction() ; 
-            $request->validated() ; 
-            $post = Auth::guard('admin')->user()->posts()->create($request->except(['_token' , 'images'])) ; 
-            if(!$post){
-                display_error_message('Error Try Again!') ;
-                return redirect()->back() ; 
+            $request->validated();
+            $post = Auth::guard('admin')->user()->posts()->create($request->except(['_token','images']));
+        
+            if (!$post) {
+                display_error_message('Error Try Again!');
+                return redirect()->back();
             }
-            if($request->hasFile('images')){
-                ImageManager::uploadImages($request , $post , 'uploads') ;
+
+            // Handle file upload for images
+            if ($request->hasFile('images')) {
+                ImageManager::uploadImages($request, $post, 'uploads');
             }
-            DB::commit() ;
-            display_success_message('Post Created Successfully!') ; 
-            return redirect()->back() ;
-        }catch(Exception $e){
-            DB::rollBack() ;
-            display_success_message('Error Try Again!') ; 
-            return redirect()->back() ;
-        }
+            display_success_message('Post Created Successfully!');
+            return redirect()->back();
     }
+
 
     /**
      * Display the specified resource.
@@ -76,8 +75,8 @@ class PostController extends Controller
     public function edit(string $id)
     {
         $post = Post::findOrFail($id);
-        $categoies  = Category::basicSelect()->get() ;
-        return view('backend.admin.posts.edit' , ['post' => $post , 'categories' => $categoies]) ; 
+        $categoies  = Category::basicSelect()->get();
+        return view('backend.admin.posts.edit', ['post' => $post, 'categories' => $categoies]);
     }
 
     /**
@@ -85,19 +84,19 @@ class PostController extends Controller
      */
     public function update(StorePostRequest $request, string $id)
     {
-        $request->validated() ; 
-        $post = Post::with(['images:image'])->findOrFail($id) ; 
-        if(!$post){
-            display_error_message('Error Try Again!') ; 
-            return redirect()->back() ; 
+        $request->validated();
+        $post = Post::with(['images:image'])->findOrFail($id);
+        if (!$post) {
+            display_error_message('Error Try Again!');
+            return redirect()->back();
         }
-        $post->update($request->except(['_token' , '_method' , 'images'])) ; 
-        if($request->hasFile('images')){
-            ImageManager::deleteImages($post) ;
-            ImageManager::uploadImages($request , $post , 'uploads') ;
+        $post->update($request->except(['_token', '_method', 'images']));
+        if ($request->hasFile('images')) {
+            ImageManager::deleteImages($post);
+            ImageManager::uploadImages($request, $post, 'uploads');
         }
-        display_success_message('Post Updated Successfully!') ; 
-        return redirect()->back() ; 
+        display_success_message('Post Updated Successfully!');
+        return redirect()->back();
     }
 
     /**
@@ -110,7 +109,7 @@ class PostController extends Controller
             display_error_message('Error, Try Again!');
             return redirect()->back();
         }
-        ImageManager::deleteImages($post) ;
+        ImageManager::deleteImages($post);
         $post->delete();
         display_success_message('Post Deleted Successfully!');
         return redirect()->back();
@@ -165,7 +164,7 @@ class PostController extends Controller
         $order_by = $queryParams[0]['order_by'];
 
         $posts = Post::query()
-            ->with(['user' , 'admin:id,name'])
+            ->with(['user', 'admin:id,name'])
             ->when($search, function ($query) use ($search) {
                 $query->where('title', 'LIKE', "%" . $search . "%");
             })

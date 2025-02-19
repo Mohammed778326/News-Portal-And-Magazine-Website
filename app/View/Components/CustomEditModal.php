@@ -10,7 +10,7 @@ class CustomEditModal extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public string $name , public string $status , public int $id)
+    public function __construct(public string $name , public string $status , public string $id)
     {
         
     }

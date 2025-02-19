@@ -30,6 +30,7 @@ class StoreAdminRequest extends FormRequest
             'password' => ['required' , 'string' , 'confirmed' , 'min:8' , 'max:30' , 'confirmed'] , 
             'password_confirmation' => ['required' , 'string'], 
             'status' => ['required' , 'in:0,1'], 
+            'role_id' => ['required' ,'exists:roles,id'] , 
         ];
     }
 }

@@ -93,20 +93,24 @@
                                                 <i class="fa fa-play" title="activate"></i>
                                             @endif
                                         </a>
-                                        <a href="" data-toggle="modal"
-                                            data-target="#exampleModal_{{ $user->id }}" title="delete user"><i
-                                                class="fa fa-trash"></i></a>
-                                        <a href="javascript:void(0)" onclick="showUserInfo({{ $user->id }})"
+                                        <a href="javascript:void(0)" data-toggle="modal"
+                                            data-target="#deleteModal_{{ $user->id }}" title="delete user">
+                                            <i class="fa fa-trash"></i>
+                                            
+                                        </a>
+                                        <a href="javascript:void(0)" onclick="showUserInfo('{{ $user->id }}')"
                                             id="userInfo_{{ $user->id }}"
                                             data-target="#showUserInfoModal_{{ $user->id }}" data-toggle="modal"
-                                            title="show user"><i class="fa fa-eye"></i></a>
+                                            title="show user"><i class="fa fa-eye"></i>
+                                        </a>
                                     </td>
                                 </tr>
-                                <x-custom-modal title="Delete User!" message="Are You Sure To Delete This User?"
-                                    id="{{ $user->id }}"></x-custom-modal>
+                                <x-delete-modal title="Delete User!" message="Are You Sure To Delete This User?"
+                                    id="{{ $user->id }}" formId="deleteForm_">
+                                </x-delete-modal>
                                 <x-show-users-info-modal id="{{ $user->id }}"></x-show-users-info-modal>
                                 <!--form for delete user-->
-                                <form id="deleteUserForm_{{ $user->id }}"
+                                <form id="deleteForm_{{ $user->id }}"
                                     action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')

@@ -2,18 +2,16 @@
 
 namespace App\View\Components;
 
-use Brick\Math\BigNumber;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use Ramsey\Uuid\Type\Integer;
 
-class CustomModal extends Component
+class DeleteModal extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(public string $title, public string $message , public string $id)
+    public function __construct(public string $title , public string $message , public string $id , public string $formId)
     {
         //
     }
@@ -23,6 +21,6 @@ class CustomModal extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.custom-modal');
+        return view('components.delete-modal');
     }
 }

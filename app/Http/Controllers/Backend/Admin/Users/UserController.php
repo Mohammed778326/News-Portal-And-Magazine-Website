@@ -9,6 +9,7 @@ use App\Utils\Frontend\ImageManager;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -16,6 +17,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('admin') ; 
+        $this->middleware('admin.permissions:users_management') ;
     }
     /**
      * Display a listing of the resource.
@@ -94,7 +96,6 @@ class UserController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $request->validate(['id' => ['required', 'exists:users,id']]);
         $user = User::findOrFail($id);
         if (!$user) {
             display_error_message('Error, Try Again!');
@@ -108,7 +109,6 @@ class UserController extends Controller
 
     public function changeUserStatus(Request $request)
     {
-        $request->validate(['user_id' => ['required', 'exists:users,id']]);
         $user = User::findOrFail($request->user_id);
         if ($user->status == 1) {
             $user->update([

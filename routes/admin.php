@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\Admin\Auth\Password\ForgetPasswordController;
 use App\Http\Controllers\Backend\Admin\Auth\Password\ResetPasswordController;
 use App\Http\Controllers\Backend\Admin\Categories\CategoryController;
 use App\Http\Controllers\Backend\Admin\Posts\PostController;
+use App\Http\Controllers\Backend\admin\Roles\RoleController;
 use App\Http\Controllers\Backend\Admin\Settings\SettingController;
 use App\Http\Controllers\Backend\Admin\Users\UserController;
 use App\Http\Controllers\Frontend\ContactController;
@@ -19,7 +20,7 @@ use Predis\Configuration\Option\Prefix;
 
 Route::group(['prefix' => 'admin' , 'as' => 'admin.'] , function(){
     Route::get('/dashboard' , function(){
-        return view('backend.admin.index') ; 
+        return view('backend.admin.index') ;
     })->name('index')->middleware('admin') ; 
 
     /*#############################################################################*/ 
@@ -62,12 +63,18 @@ Route::group(['prefix' => 'admin' , 'as' => 'admin.'] , function(){
     /*#############################################################################*/
     Route::controller(SettingController::class)->prefix('settings')->name('settings.')->group(function(){
         Route::get('/' , 'index')->name('index') ; 
-        Route::put('/update' , 'update')->name('update') ; 
+        Route::put('/update/{id}' , 'update')->name('update') ; 
     }); 
     /*#############################################################################*/ 
                        /*########  Admins Management Routes ########*/ 
     /*#############################################################################*/
     Route::resource('admins' , AdminController::class) ; 
     Route::post('/admins/change-status' , [AdminController::class , 'changeAdminStatus'])->name('admins.change-status') ;
+    /*#############################################################################*/ 
+             /*########  Roles And Permissions Management Routes ########*/  
+    /*#############################################################################*/
+    Route::resource('roles' , RoleController::class) ;
+    
+    
     require __DIR__ . '/adminAuth.php';
 }) ; 

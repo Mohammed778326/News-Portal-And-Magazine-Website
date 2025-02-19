@@ -12,6 +12,7 @@ class CategoryController extends Controller
     public function __construct()
     {
           $this->middleware('admin') ;
+          $this->middleware('admin.permissions:categories_management') ;
     }
     /**
      * Display a listing of the resource.

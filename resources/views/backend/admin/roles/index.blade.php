@@ -1,5 +1,5 @@
 @extends('backend.admin.master')
-@section('title', 'Admins')
+@section('title', 'Roles')
 @section('content')
     <!-- Begin Page Content -->
     <div class="container-fluid">
@@ -44,95 +44,80 @@
                             </select>
                         </div>
                         <div class="form-group mr-3">
-                            <input type="search" name="search" id="search" class="form-control" placeholder="Search Here">
+                            <input type="search" name="search" id="search" class="form-control"
+                                placeholder="Search Here">
                         </div>
                         <button type="submit" class="btn btn-primary">Search</button>
                     </form>
-                    <a href="{{ route('admin.admins.create') }}" class="btn btn-primary">Add New Admin</a>
+                    <a href="{{ route('admin.roles.create') }}" class="btn btn-primary">Add New Role</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Name</th>
-                                <th>UserName</th>
-                                <th>Email</th>
                                 <th>Role</th>
-                                <th>Status</th>
+                                <th style="text-align:center">Permessions</th>
+                                <th>Admins Num</th>
+                                <th>Created Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <th>#</th>
-                            <th>Name</th>
-                            <th>UserName</th>
-                            <th>Email</th>
                             <th>Role</th>
-                            <th>Status</th>
+                            <th style="text-align:center">Permessions</th>
+                            <th>Admins Num</th>
+                            <th>Created Date</th>
                             <th>Actions</th>
                         </tfoot>
                         <tbody>
-                            @forelse ($admins as $admin)
-                               @if ($admin->id != Auth::guard('admin')->user()->id)
+                            @forelse ($roles as $role)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $admin->name }}</td>
-                                    <td>{{ $admin->username }}</td>
-                                    <td>{{ $admin->email }}</td>
-                                    <th>{{ $admin->roles->name ?? 'No Role' }}</th>
-                                    <td style="align-content:center;text-align:center;">
-                                        @if ($admin->status == 1)
-                                            <button class="btn btn-success">Active</button>
-                                        @else
-                                            <button class="btn btn-danger">InActive</button>
-                                        @endif
+                                    <td>{{ $role->name }}</td>
+                                    <td>
+                                        @forelse ($role->permissions as $permission)
+                                          <button type="button" class="btn btn-success btn-sm">{{ $permission }}</button>
+                                        @empty
+                                            <strong class="btn btn-danger">No Permessions</strong>
+                                        @endforelse
                                     </td>
-                                <td>
-                                    <a href="javascript:void(0)"
-                                        onclick="document.getElementById('changeAdminStatusForm_{{ $admin->id }}').submit();return false;"
-                                        title="change status">
-                                        @if ($admin->status == 1)
-                                            <i class="fa fa-stop" title="inactive"></i>
-                                        @else
-                                            <i class="fa fa-play" title="activate"></i>
-                                        @endif
-                                    </a>
-                                    <a href="javascript:void(0)" data-toggle="modal"
-                                        data-target="#deleteModal_{{ $admin->id }}" title="delete admin"><i class="fa fa-trash"></i>
-                                    </a>
-                                    <a href="{{ route('admin.admins.edit' , $admin->id) }}" id="adminEdit_{{ $admin->id }}" title="edit admin"><i class="fa fa-edit"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                               @endif
-                                <x-delete-modal title="Delete Admin!" message="Are You Sure To Delete This Admin?"
-                                    id="{{ $admin->id }}" formId="deleteForm_">
+                                    <th>{{ $role->admins_count ?? 0 }}</th> <!--Eager Loaded In Role Controller-->
+                                    <td>{{ $role->created_at->format('d-m-Y: h:m a') }}</td>
+                                    <td>
+                                        <a href="javascript:void(0)" data-toggle="modal"
+                                            data-target="#deleteModal_{{ $role->id }}" title="delete role">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        <a href="{{ route('admin.roles.edit', $role->id) }}"
+                                            id="roleEdit_{{ $role->id }}" title="edit role">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                
+                                <x-delete-modal title="Delete Role!" message="Are You Sure To Delete This Role?"
+                                    id="{{ $role->id }}" formId="deleteForm_">
                                 </x-delete-modal>
                                 <!--form for delete user-->
-                                <form id="deleteForm_{{ $admin->id }}"
-                                    action="{{ route('admin.admins.destroy', $admin->id) }}" method="POST">
+                                <form id="deleteForm_{{ $role->id }}"
+                                    action="{{ route('admin.roles.destroy', $role->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                </form>
-                                <!--form for change user status-->
-                                <form id="changeAdminStatusForm_{{ $admin->id }}"
-                                    action="{{ route('admin.admins.change-status') }}" method="POST">
-                                    @csrf
-                                    <input name="admin_id" type="hidden" value="{{ $admin->id }}">
                                 </form>
                             @empty
                                 <tr>
                                     <td colspan="6" class="text-center">
                                         <div class="alert alert-info">
-                                            No Admins Found!
+                                            No Roles Found!
                                         </div>
                                     </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
-                    {{ $admins->appends(request()->input())->render('pagination::bootstrap-4') }}
+                    {{ $roles->appends(request()->input())->render('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>
@@ -141,7 +126,5 @@
 @endsection
 
 @push('js')
-    <script>
-     
-    </script>
+    <script></script>
 @endpush

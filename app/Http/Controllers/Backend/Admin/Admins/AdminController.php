@@ -6,18 +6,25 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Admin\Admins\StoreAdminRequest;
 use App\Http\Requests\Backend\Admin\Admins\UpdateAdminRequest;
 use App\Models\Admin;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use function PHPSTORM_META\type;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin') ; 
+        $this->middleware('admin.permissions:admins_management') ;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $admins = Admin::paginate(1) ; 
+        $admins = Admin::with(['role:id,name'])->paginate(5) ; 
         return view('backend.admin.admins.index' , compact('admins')) ; 
     }
 
@@ -26,7 +33,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view('backend.admin.admins.create') ; 
+        $roles = Role::select(['id' , 'name'])->get() ; 
+        return view('backend.admin.admins.create' , compact('roles')) ; 
     }
 
     /**
@@ -35,7 +43,7 @@ class AdminController extends Controller
     public function store(StoreAdminRequest $request)
     {
        $request->validated() ; 
-       $admin = Admin::create($request->only(['name' , 'username' , 'email' , 'password' , 'status'])) ; 
+       $admin = Admin::create($request->only(['name' , 'username' , 'email' , 'password'  , 'role_id' , 'status'])) ; 
        if(!$admin){
            display_error_message('Error Try Again!') ;
            return redirect()->back() ; 
@@ -58,7 +66,8 @@ class AdminController extends Controller
     public function edit(string $id)
     {
         $admin = Admin::findOrFail($id) ; 
-        return view('backend.admin.admins.edit' , compact('admin')) ;
+        $roles = Role::select(['id' , 'name'])->get() ; 
+        return view('backend.admin.admins.edit' , compact('admin' , 'roles')) ;
     }
 
     /**

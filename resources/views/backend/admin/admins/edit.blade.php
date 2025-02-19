@@ -75,6 +75,22 @@
                                 </div>
                             </div>
 
+                             <!-- Role Field -->
+                             <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="role" class="form-label">Role<strong class="text-danger"> *</strong></label>
+                                    <select name="role_id" class="form-select">
+                                        <option disabled>Select Role</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}" @selected($role->id == $admin->role_id)>{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('role_id')
+                                        <strong class="text-danger">{{ $message }}</strong>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <!-- Status Field -->
                             <div class="row mb-3">
                                 <div class="col-md-12">

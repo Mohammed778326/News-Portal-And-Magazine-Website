@@ -8,21 +8,29 @@ use App\Models\Setting;
 use App\Utils\Frontend\ImageManager;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class SettingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin') ; 
+        $this->middleware('admin.permissions:settings_management') ; 
+    }
+
     public function index()
     {
         return view('backend.admin.settings.index');
     }
 
-    public function update(UpdateSettingRequest $request)
+    public function update(UpdateSettingRequest $request , string $id)
     {
         try {
             DB::beginTransaction() ; 
             $request->validated();
-            $site_setting = Setting::findOrFail(1);
+            $site_setting = Setting::findOrFail($id);
             $setting = $site_setting->update($request->except(['_token', '_method', 'logo', 'favicon']));
             if (!$setting) {
                 display_error_message('Error Try Again!');

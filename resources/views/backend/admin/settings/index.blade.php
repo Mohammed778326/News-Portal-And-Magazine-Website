@@ -7,7 +7,7 @@
                 <h4 class="card-title mb-0"> Update Site Settings</h4>
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.settings.update' , $site_settings->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <!-- Site Name Field -->

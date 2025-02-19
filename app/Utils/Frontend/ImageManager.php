@@ -1,5 +1,8 @@
 <?php
 namespace App\Utils\Frontend;
+
+use App\Models\Post;
+use App\Models\PostImage;
 use Illuminate\Support\Str ;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +23,8 @@ class ImageManager
                 $file =  Str::uuid() .  time() . '.' . $image->getClientOriginalExtension() ;
                 $path = $image->storeAs('posts' , $file , ['disk' => $disk]) ;
                 $uploadedFiles[] = $path ; 
-                $post->images()->create([
+                PostImage::create([
+                    'post_id' => $post->id ,
                     'image' => $path , 
                 ]) ; 
             }

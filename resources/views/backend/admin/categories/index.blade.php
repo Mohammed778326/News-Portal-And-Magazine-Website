@@ -96,9 +96,10 @@
                                                 <i class="fa fa-play" title="activate"></i>
                                             @endif
                                         </a>
-                                        <a href="javascript:void(0)" onclick="" data-toggle="modal"
-                                            data-target="#exampleModal_{{ $category->id }}" title="delete category"><i
-                                                class="fa fa-trash"></i></a>
+                                        <a href="javascript:void(0)" data-toggle="modal"
+                                            data-target="#deleteModal_{{ $category->id }}" title="delete category"><i
+                                                class="fa fa-trash"></i>
+                                        </a>
                                         <a href="javascript:void(0)" 
                                             id="categoryEdit_{{ $category->id }}"
                                             data-target="#categoryEditModal_{{ $category->id }}" data-toggle="modal"
@@ -107,8 +108,8 @@
                                     </td>
                                 </tr>
                                 <x-custom-edit-modal name="{{ $category->name }}" status="{{ $category->status }}" id="{{ $category->id }}"></x-custom-edit-modal>
-                                <x-custom-modal title="Delete Category!" message="Are You Sure To Delete This Category?" id="{{ $category->id }}"></x-custom-modal>
-                                <form id="deleteCategoryForm_{{ $category->id }}"
+                                <x-delete-modal title="Delete Category!" message="Are You Sure To Delete This Category?" id="{{ $category->id }}" formId="deleteForm_"></x-delete-modal>
+                                <form id="deleteForm_{{ $category->id }}"
                                     action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
