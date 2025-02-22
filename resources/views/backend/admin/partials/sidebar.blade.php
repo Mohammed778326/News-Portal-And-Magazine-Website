@@ -1,8 +1,5 @@
 @php
-    $admin = auth()->guard('admin')->user() ?? null;
-    if($admin == null){
-        return redirect()->route('admin.login');
-    }
+    $admin = getCurrectAuthUser('admin') ; 
 @endphp
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <!-- Sidebar - Brand -->

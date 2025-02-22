@@ -40,7 +40,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/Frontend/FlasherHelpers.php" 
+            "app/Helpers/Frontend/FlasherHelpers.php" , 
+            "app/Helpers/Backend/UserAuthorizationHelper.php"
         ]
         
     },

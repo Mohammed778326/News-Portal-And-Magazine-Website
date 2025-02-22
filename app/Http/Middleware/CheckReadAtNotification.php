@@ -18,12 +18,6 @@ class CheckReadAtNotification
     {
         $user = Auth::guard('web')->user() ;
         $admin = Auth::guard('admin')->user() ;
-        if(!$user){
-            return redirect()->route('admin.login') ;
-        }
-        if(!$admin){
-            return redirect()->route('admin.login') ;
-        }
         
         if($request->query('notify') && $user){
             $notification = $user->unreadNotifications()->where('id', $request->query('notify'))->first() ; 
