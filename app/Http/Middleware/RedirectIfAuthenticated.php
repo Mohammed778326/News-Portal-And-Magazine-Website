@@ -20,7 +20,7 @@ class RedirectIfAuthenticated
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check() && $guard == 'user') {
+            if (Auth::guard($guard)->check() && $guard == 'web') {
                 return to_route('frontend.index');
             }
             if (Auth::guard($guard)->check() && $guard == 'admin') {
