@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Interfaces\AuthServiceInterface;
 use App\Services\SocialAuth\GoogleAuthService;
+use App\Services\SocialAuth\FacebookAuthService;
 use Illuminate\Support\ServiceProvider;
 use InvalidArgumentException;
 
@@ -20,8 +21,10 @@ class AppServiceProvider extends ServiceProvider
            {
                 case 'google' : 
                     return new GoogleAuthService() ; 
+                case 'facebook' : 
+                    return new FacebookAuthService() ; 
                 default : 
-                    throw new InvalidArgumentException('Unsupported Provider : ' . $provider) ; 
+                    abort(404) ; 
            }
         }) ; 
     }

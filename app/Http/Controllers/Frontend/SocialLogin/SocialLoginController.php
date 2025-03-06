@@ -31,10 +31,11 @@ class SocialLoginController extends Controller
             $provider_user = $this->authService->findOrCreateUser($user) ; 
             if($provider_user){
                 Auth::login($provider_user) ; 
+                display_success_message('Login with '.$provider.' successfully!') ;
                 return redirect()->route('frontend.dashboard.setting.index') ; 
             }else{
-                display_error_message('Error , This Email Alraedy Registered!') ; 
-                return redirect()->route('login') ; 
+                display_error_message('This Email Is Already Taken!') ;
+                return redirect()->route('login') ;
             }
         }catch(Exception $e){
             display_error_message('Error , OAuth Failed , Try Again!') ; 
