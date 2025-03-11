@@ -41,10 +41,8 @@ class AccountProfileController extends Controller
                     'comment_able' => $comment_able , 
                     'user_id' => $user_id ,
                 ]) ; 
-
                 $post = Post::create($request->except('_token' , 'images')) ; 
                 $uploadedFiles = ImageManager::uploadImages($request , $post , 'posts' , 'uploads') ;
-                
                 // Every Time Create Post We Clear Our Cache To Get Latest Updated Posts From Cache
                 Cache::flush() ; 
                 DB::commit(); 
