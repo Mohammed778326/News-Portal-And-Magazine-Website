@@ -74,8 +74,8 @@
                         </tfoot>
                         <tbody>
                             @forelse ($admins as $admin)
-                               @if ($admin->id != Auth::guard('admin')->user()->id)
-                                <tr>
+                               @if ($admin->id != Auth::guard('admin')->user()->id) <!--id=1 if id of super admin--> 
+                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $admin->name }}</td>
                                     <td>{{ $admin->username }}</td>
@@ -89,6 +89,7 @@
                                         @endif
                                     </td>
                                 <td>
+                                @if($admin->role_id != 1) 
                                     <a href="javascript:void(0)"
                                         onclick="document.getElementById('changeAdminStatusForm_{{ $admin->id }}').submit();return false;"
                                         title="change status">
@@ -104,6 +105,7 @@
                                     <a href="{{ route('admin.admins.edit' , $admin->id) }}" id="adminEdit_{{ $admin->id }}" title="edit admin"><i class="fa fa-edit"></i>
                                     </a>
                                 </td>
+                               @endif
                             </tr>
                             @endif
                                 <x-delete-modal title="Delete Admin!" message="Are You Sure To Delete This Admin?"

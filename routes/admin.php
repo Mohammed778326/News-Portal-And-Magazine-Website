@@ -23,7 +23,10 @@ use App\Models\Contact;
 use Illuminate\Support\Facades\Route;
 use Predis\Configuration\Option\Prefix;
 
-Route::group(['prefix' => 'admin' , 'as' => 'admin.'] , function(){
+Route::group(['prefix' => 'admin' , 'as' => 'admin.' , 'middleware' => ['check.admin.status']]  , function(){
+    /*#############################################################################*/ 
+                    /*########   Dashboard Routes ########*/ 
+    /*#############################################################################*/
     Route::get('/dashboard' ,[DashboardController::class,'index'])->name('index') ; 
 
     /*#############################################################################*/ 
@@ -112,7 +115,16 @@ Route::group(['prefix' => 'admin' , 'as' => 'admin.'] , function(){
     /*#############################################################################*/
      Route::get('/general/search' , [GeneralSearchController::class , 'search'])->name('general.search') ; 
 
+      /*#############################################################################*/ 
+                    /*########  Waiting Block Routes ########*/  
+    /*#############################################################################*/
+     Route::get('/waiting/block' , function(){
+         return view('backend.admin.waiting.block') ; 
+     })->withoutMiddleware(['check.admin.status'])->name('waiting.block');
 
+     /*#############################################################################*/ 
+                    /*########   Fallback Routes ########*/ 
+    /*#############################################################################*/
      Route::fallback(function(){
         return view('errors.404');
      }) ;
